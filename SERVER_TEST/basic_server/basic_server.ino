@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-#define WIFI_SSID  "Sri Sai Kripa"
-#define WIFI_PASSWORD  "mythraye"
+#define WIFI_SSID  "ugb"
+#define WIFI_PASSWORD  "gvj"
 
 WiFiServer server(80);
 
