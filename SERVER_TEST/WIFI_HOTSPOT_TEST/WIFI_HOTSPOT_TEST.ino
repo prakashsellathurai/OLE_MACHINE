@@ -4,32 +4,32 @@
 
 const char *ssid = "test";
 const char *password = "password";
- 
+int count = 0;
+
 IPAddress  apIP(42, 42, 42, 42);  // Defining a static IP address: local & gateway
                                     // Default IP in AP mode is 192.168.4.1
 // Define a web server at port 80 for HTTP                         
 ESP8266WebServer server(80);
 
 void handleRoot() {
- char liveSensordata = random(0,100000);
+ int liveSensordata = GetSensorCount();
  String html = prepareHtmlPage(liveSensordata);
+ String CONTENT_TYPE = "text/html";
  
- server.send(200, "text/html",html);
+ server.send(200,CONTENT_TYPE,html);
 
 }
-String prepareHtmlPage(char liveSensordata)
+int GetSensorCount () { 
+ int liveSensordata = random(0,100000);
+// count = 0;
+ return liveSensordata;
+  }
+  void countPunches () {
+    count++;
+    }
+String prepareHtmlPage(int liveSensordata)
 {
-  String htmlPage =
-     String("HTTP/1.1 200 OK\r\n") +
-            "Content-Type: text/html\r\n" +
-            "Connection: close\r\n" +  // the connection will be closed after completion of the response
-            "Refresh: 5\r\n" +  // refresh the page automatically every 5 sec
-            "\r\n" +
-            "<!DOCTYPE HTML>" +
-            "<html>" +
-            "Analog input:  " + String(liveSensordata)+
-            "</html>" +
-            "\r\n";
+  String htmlPage = String(liveSensordata);
   return htmlPage;
 }
 
@@ -57,7 +57,7 @@ Serial.println("HTTP server started");
 }
 
 void loop() {
-
+countPunches();
 server.handleClient();
 
 }
