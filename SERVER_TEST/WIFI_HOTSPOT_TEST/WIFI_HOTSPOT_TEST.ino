@@ -11,6 +11,11 @@ IPAddress  apIP(42, 42, 42, 42);  // Defining a static IP address: local & gatew
 // Define a web server at port 80 for HTTP                         
 ESP8266WebServer server(80);
 
+int GetSensorCount () { 
+ int liveSensordata = random(0,100000);
+// count = 0;
+ return liveSensordata;
+  }
 void handleRoot() {
  int liveSensordata = GetSensorCount();
  String html = prepareHtmlPage(liveSensordata);
@@ -19,11 +24,7 @@ void handleRoot() {
  server.send(200,CONTENT_TYPE,html);
 
 }
-int GetSensorCount () { 
- int liveSensordata = random(0,100000);
-// count = 0;
- return liveSensordata;
-  }
+
   void countPunches () {
     count++;
     }

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import {AppComponent} from './app.component';
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
+  { path: '', component: AppComponent  },
+  { path: 'livechart', loadChildren: './pages/livechart/livechart.module#LivechartPageModule' },
 ];
 
 @NgModule({

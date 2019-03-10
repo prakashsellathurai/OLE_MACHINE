@@ -3,21 +3,22 @@
     <ion-card>
       <ion-card-header>
        
-        <ion-card-title>toggle here to connect</ion-card-title>
+        <ion-card-title>Demand (scaled per minute)</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-          <ion-toggle  (ionChange)="handleToggleChange($event) "></ion-toggle>
+          <ion-input type="number" [(ngModel)]="demand" (input)='onInputTime($event.target.value)' ></ion-input>
+          <!-- <ion-toggle  (ionChange)="handleToggleChange($event) "></ion-toggle> -->
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-header>
         <ion-card-subtitle>number of punches per 10 seconds</ion-card-subtitle>
-        <ion-card-title>live Data Chart </ion-card-title>
+        <ion-card-title>Forecast (live Data Chart) </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <div #chart></div>
+        <app-livechart></app-livechart>
       </ion-card-content>
     </ion-card>
   </ion-content>
