@@ -13,24 +13,27 @@ import { FormsModule } from '@angular/forms';
 import { IonicStorageModule } from '@ionic/storage';
 import { LivechartPage } from './pages/livechart/livechart.page';
 import { ChartsModule } from 'ng2-charts';
-
-
+import {LivechartService}from './pages/livechart/livechart.service';
+import {Http, HttpModule} from '@angular/http';
 @NgModule({
   declarations: [
     AppComponent,
   LivechartPage],
   entryComponents: [],
   imports: [
+    HttpModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
      FormsModule,
      IonicStorageModule.forRoot(),
-     ChartsModule
+     ChartsModule,
+    
     ],
   providers: [
     StatusBar,
     SplashScreen,
+    LivechartService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
