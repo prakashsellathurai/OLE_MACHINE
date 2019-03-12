@@ -1,9 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy , ElementRef, Input, OnChanges, ViewChild} from '@angular/core';
 import {Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import {LivechartService}from './livechart.service';
+import {LivechartService} from './livechart.service';
 import 'chartjs-plugin-streaming';
-import {Http} from '@angular/http';
+// import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-livechart',
   templateUrl: './livechart.page.html',
@@ -11,9 +12,14 @@ import {Http} from '@angular/http';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LivechartPage implements  OnChanges, OnInit {
+
+  constructor(
+		public s: LivechartService, ) {
+    // setInterval(() => this.renderChart(), 10000);
+	}
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   chartElement: ElementRef;
-
+  public livedata;
   private svgElement: HTMLElement;
   private chartProps: any;
 
@@ -34,65 +40,55 @@ realtime : {
     }
 
 	};
-	public onRefresh (chart):any {
-		let prov =  this.s.dataprovider();
-		return prov
-		.subscribe((res) => {
-			let data = { y: res.json().value,
-			x: Date.now()};
-		
-		  chart.data.datasets.forEach(function(dataset: any) {
-
-				dataset.data.push(data);
-		});
-	});
-	};
-	public lineChartData:Array<any> = [
+	public lineChartData: Array<any> = [
 		{data: [], label: 'number of punches'},
 		];
-		public lineChartLabels:Array<any> = [];
-		public lineChartOptions:any = {
+		public lineChartLabels: Array<any> = [];
+		public lineChartOptions: any = {
 		responsive: true
 		};
-		public lineChartColors:Array<any> = [
+		public lineChartColors: Array<any> = [
 		{ // grey
 			backgroundColor: 'rgba(148,159,177,0.2)',
 			borderColor: 'rgba(148,159,177,1)',
-			pointBackgroundColor: 'rgba(148,159,177,1)',
+			pointBackgroundColorcd : 'rgba(148,159,177,1)',
 			pointBorderColor: '#fff',
 			pointHoverBackgroundColor: '#fff',
 			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
 		}
 		];
-		public lineChartLegend:boolean = true;
-		public lineChartType:string = 'line';
-		
-		
+		public lineChartLegend = true;
+		public lineChartType = 'line';
+
+
   data: any;
   Message: any[];
+	public onRefresh (chart): any {
 
-  constructor(
-		public s: LivechartService,) {
-    // setInterval(() => this.renderChart(), 10000);
+		const prov =  this.s.dataprovider();
+		return prov
+		.subscribe((res) => {
+
+			this.livedata = res.text();
+			console.log(this.livedata);
+			const data = { y: res.text(),
+			x: Date.now()};
+
+		  chart.data.datasets.forEach(function(dataset: any) {
+
+				dataset.data.push(data);
+		});
+	});
 	}
-	ngOnInit() { }
+	ngOnInit() {
+
+	
+	}
   ngOnChanges() { }
 
-   renderChart() {
-console.log('rendering chart');
-let _lineChartData = []
-let _lineChartLabels = []
-this.s.dataprovider().subscribe((res) => {
-console.log(res.json().value);
-_lineChartData.forEach(dataset => dataset.data.push(res.json().value));
-_lineChartLabels.push(Date.now())
-this.lineChartData= _lineChartData
-this.lineChartLabels = _lineChartLabels
-})
-}
 
-  public randomize():void {
-	let _lineChartData:Array<any> = new Array(this.lineChartData.length);
+  public randomize(): void {
+	const _lineChartData: Array<any> = new Array(this.lineChartData.length);
 	for (let i = 0; i < this.lineChartData.length; i++) {
 	  _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
 	  for (let j = 0; j < this.lineChartData[i].data.length; j++) {
@@ -101,13 +97,13 @@ this.lineChartLabels = _lineChartLabels
 	}
 	this.lineChartData = _lineChartData;
   }
-  
+
   // events
-  public chartClicked(e:any):void {
+  public chartClicked(e: any): void {
 	console.log(e);
   }
-  
-  public chartHovered(e:any):void {
+
+  public chartHovered(e: any): void {
 	console.log(e);
   }
 
