@@ -3,18 +3,18 @@ INDUCTION PROXIMITY SENSOR TEST :)
 */
 float metalDetected;
 int monitoring;
-int metalDetection = A0;
+int metalDetection = 2;
+
  
 void setup(){
 Serial.begin(9600);
 }
  
 void loop(){
-monitoring = analogRead(metalDetection);
-metalDetected = 100 - (float) monitoring*100/1024.0;
-Serial.print("metalDetected : ");
-Serial.print(metalDetected);
-Serial.print("%\n");
-delay(500);
-
+Serial.println(getSensorData(metalDetection));
 }
+int getSensorData (int metalDetection) {
+int monitoring = digitalRead(metalDetection);
+monitoring = map(monitoring,1,0,0,1); 
+return monitoring;
+ }
