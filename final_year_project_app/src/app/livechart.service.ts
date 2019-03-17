@@ -6,7 +6,7 @@ import {Http} from '@angular/http';
 export class LivechartService {
 
   constructor(private http: Http) { }
-  dataprovider (){
-   return  this.http.get('http://42.42.42.42');
+  dataprovider (url:string){
+   return  this.http.get(`http://${url}`);
 }
 }

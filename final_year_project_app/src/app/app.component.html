@@ -1,19 +1,65 @@
 <ion-app>
   <ion-content>
-    <ion-card>
-      <ion-card-header>
-       
-        <ion-card-title>Demand</ion-card-title>
-      </ion-card-header>
+    <ion-grid>
 
-      <ion-card-content>
-          <ion-input type="number" [(ngModel)]="demand" (input)='onInputTime($event.target.value)' ></ion-input>
-          <!-- <ion-toggle  (ionChange)="handleToggleChange($event) "></ion-toggle> -->
-      </ion-card-content>
-    </ion-card>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Demand</ion-card-title>
+            </ion-card-header>
 
-        <app-livechart></app-livechart>
-   
+            <ion-card-content>
+              <ion-input type="number" [(ngModel)]="demand" (input)='onInputTime($event.target.value)'></ion-input>
+              <!-- <ion-toggle  (ionChange)="handleToggleChange($event) "></ion-toggle> -->
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+           <ion-card>
+              <ion-card-header>
+                  <ion-card-subtitle>Total punches done</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+              {{totalCounts}}
+              </ion-card-content>
+           </ion-card>
+        </ion-col>
+        <ion-col>
+            <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>punches needed to be done</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+          {{neededPunches}}
+        </ion-card-content>
+      </ion-card>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+                <ion-card-title>machine #1</ion-card-title>
+                <ion-card-subtitle>status :  <ion-badge color="{{badgeColor}}">{{MachineStatus}} </ion-badge></ion-card-subtitle>
+                <ion-card-subtitle>#1 IP : {{MachineIp}}</ion-card-subtitle>
+                <ion-card-subtitle>Forecast (live Data Chart) </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="chart">
+                <canvas baseChart [chartType]="'line'" [datasets]="lineChartData" [options]="options"></canvas>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
   </ion-content>
-
 </ion-app>
