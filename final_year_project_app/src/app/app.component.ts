@@ -32,9 +32,9 @@ export class AppComponent implements OnChanges {
   private password = "password";
 
   public liveCounts = 0 ;
-  public totalCounts;
+  public totalCounts = 0;
   public neededPunches = 0;
-  public MachineIp = '42.42.42.42';
+  public MachineIp = 'localhost:3000/';
   public MachineStatus = 'OFF';
   public badgeColor = 'danger';
   constructor(
@@ -83,7 +83,6 @@ setMachineDown () { this.MachineStatus = 'OFF'; this.badgeColor = 'danger' }
   async getDemand () {
     this.demand = await this.storage.get('demand');
       this.demand = (this.demand === null) ? 0 : this.demand; 
-      console.log(this.demand);
     return this.demand;
   }
   onInputTime (evt) {
@@ -130,11 +129,7 @@ refresh: 1000
   }
 
 };
-public scanNetworks () {
-  this.hotspot.scanWifi().then((networks: HotspotNetwork[]) => {
-    console.log(networks);
-});
-}
+
 public lineChartData: Array<any> = [
   {data: [], label: 'number of punches'},
   ];
@@ -175,12 +170,12 @@ public onRefresh (chart): any {
   }
 });
 }
-updateCounts (chart, livedata) {
+async updateCounts (chart, livedata) {
 
     this.liveCounts = Number(livedata);
-    console.log(this.liveCounts);
+    this.totalCounts = await this.gettotalpunches();
     this.totalCounts += this.liveCounts;
-
+    this.settotalpunches(this.totalCounts);
     const data = {
        y: this.liveCounts,
        x: Date.now()

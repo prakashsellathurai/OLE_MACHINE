@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.json({value: Math.random()*10})
+  res.send(Math.random()*10)
 });
 
 module.exports = router;
